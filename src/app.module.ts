@@ -2,20 +2,21 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import config from 'environments/config';
+import { environtments, schema } from 'environments/environments';
 import { Persona } from './entities/persona.entity';
 import { Imagen } from './entities/imagen.entity';
-import { environtments, schema } from 'environments/environments';
 
 import { UsersModule } from './modules/users.module';
 import { ImagesModule } from './modules/images.module';
-import config from 'environments/config';
 
 @Module({
   imports: [
     UsersModule,
     ImagesModule,
     ConfigModule.forRoot({
-      envFilePath: 'environments/' + environtments[process.env.NODE_ENV],
+      envFilePath:
+        'environments/' + (environtments[process.env.NODE_ENV] || '.env'),
       load: [config],
       isGlobal: true,
       validationSchema: schema,

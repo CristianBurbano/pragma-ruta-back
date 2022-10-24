@@ -11,7 +11,7 @@ import {
   LessThanOrEqual,
   Between,
 } from 'typeorm';
-import { CreateUserDto, UpdateUserDto } from 'src/dtos/users.dtos';
+import { CreateUserDto, UpdateUserDto } from 'src/dtos/users.dto';
 
 import { Persona } from 'src/entities/persona.entity';
 import { USERS } from 'src/mocks/users';

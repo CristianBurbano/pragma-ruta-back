@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateImageDto, UpdateImageDto } from 'src/dtos/image.dtos';
+import { CreateImageDto, UpdateImageDto } from 'src/dtos/image.dto';
 import { Imagen } from 'src/entities/imagen.entity';
 import { Repository } from 'typeorm';
 import { ObjectID } from 'mongodb';

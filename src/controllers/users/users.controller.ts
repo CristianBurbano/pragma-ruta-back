@@ -9,12 +9,15 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from 'src/dtos/users.dtos';
+import { CreateUserDto, UpdateUserDto } from 'src/dtos/users.dto';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
 import { UsersService } from 'src/services/users/users.service';
 
+@ApiTags('Usuarios')
 @Controller('users')
 export class UsersController {
+  @ApiOperation({ summary: 'Consulta de los Usuarios' })
   @Get()
   getUsers(
     @Query('type') type: string,
@@ -31,16 +34,19 @@ export class UsersController {
     }
   }
 
+  @ApiOperation({ summary: 'Crear Usuario' })
   @Post()
   createUser(@Body() payload: CreateUserDto) {
     return this.UserService.create(payload);
   }
 
+  @ApiOperation({ summary: 'Obtener Usuario por Id' })
   @Get(':id')
   getUser(@Param('id', ParseIntPipe) id: number) {
     return this.UserService.findOne(id);
   }
 
+  @ApiOperation({ summary: 'Modificar propiedades del usuario' })
   @Put(':id')
   updateUser(
     @Param('id', ParseIntPipe) id: string,
@@ -49,6 +55,7 @@ export class UsersController {
     return this.UserService.udpate(id, payload);
   }
 
+  @ApiOperation({ summary: 'Eliminar Usuario' })
   @Delete(':id')
   deleteUser(@Param('id', ParseIntPipe) id) {
     this.UserService.delete(id);
