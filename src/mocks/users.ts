@@ -1,0 +1,40 @@
+import { Persona, typeDocument } from 'src/entities/persona.entity';
+
+export const USERS: Persona[] = [
+  {
+    id: 1,
+    firstName: 'Cristian',
+    middleName: 'Burbano',
+    birthplace: 'La Plata, Huila',
+    age: 28,
+    documentType: typeDocument.CC,
+    document: '1234343',
+    photo: 'dfdfdfd',
+    createAt: new Date(),
+    updateAt: new Date(),
+  },
+  {
+    id: 2,
+    firstName: 'Pepito',
+    middleName: 'Perez',
+    birthplace: 'Bogotá, Cundinamarca',
+    age: 20,
+    documentType: typeDocument.TI,
+    document: '5433443',
+    photo: 'dfdfccrgbfgfgfgff',
+    createAt: new Date(),
+    updateAt: new Date(),
+  },
+  {
+    id: 3,
+    firstName: 'Pepito',
+    middleName: 'Perez',
+    birthplace: 'Bogotá, Cundinamarca',
+    age: 40,
+    documentType: typeDocument.CE,
+    document: '5433443',
+    photo: 'dfdfccrgbfgfgfgff',
+    createAt: new Date(),
+    updateAt: new Date(),
+  },
+];
