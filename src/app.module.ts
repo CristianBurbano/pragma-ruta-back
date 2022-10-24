@@ -1,19 +1,17 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from './controllers/app/app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Persona } from './entities/persona.entity';
-import { UsersController } from './controllers/users/users.controller';
-import { UsersService } from './services/users/users.service';
-import { AppService } from './app.service';
-
 import { Imagen } from './entities/imagen.entity';
-import { ImagesController } from './controllers/images/images.controller';
-import { ImagesService } from './services/images/images/images.service';
+
+import { UsersModule } from './modules/users.module';
+import { ImagesModule } from './modules/images.module';
 
 @Module({
   imports: [
+    UsersModule,
+    ImagesModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
       // load: [config],
@@ -41,11 +39,8 @@ import { ImagesService } from './services/images/images/images.service';
       username: 'root',
       entities: [Imagen],
       synchronize: true,
+      useUnifiedTopology: true,
     }),
-    TypeOrmModule.forFeature([Persona]),
-    TypeOrmModule.forFeature([Imagen], 'mongoConnection'),
   ],
-  controllers: [AppController, UsersController, ImagesController],
-  providers: [AppService, UsersService, ImagesService],
 })
 export class AppModule {}
