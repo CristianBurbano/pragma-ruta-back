@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Persona } from './entities/persona.entity';
 import { Imagen } from './entities/imagen.entity';
-import { environtments } from 'environments/environments';
+import { environtments, schema } from 'environments/environments';
 
 import { UsersModule } from './modules/users.module';
 import { ImagesModule } from './modules/images.module';
@@ -18,6 +18,7 @@ import config from 'environments/config';
       envFilePath: 'environments/' + environtments[process.env.NODE_ENV],
       load: [config],
       isGlobal: true,
+      validationSchema: schema,
     }),
     /**@todo mover a un modulo aparte para hacerlo global y se pueda usar en todos los modulos */
     TypeOrmModule.forRoot({
