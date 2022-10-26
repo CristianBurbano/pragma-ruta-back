@@ -56,7 +56,7 @@ export class UsersService {
   async create(payload: CreateUserDto) {
     const newImage = await this.imageService.createImage({
       bs64: payload.photo,
-      name: 'nombre Ejemplo' + new Date().toTimeString(),
+      name: payload.firstName + payload.lastName + new Date().getTime(),
       type: 'png',
     });
     const newUser = this.usersRepository.create({
