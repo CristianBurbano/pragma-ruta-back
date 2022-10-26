@@ -1,5 +1,5 @@
-import { CreateUserDto } from 'src/modules/Users/dtos/users.dto';
-import { typeDocument } from '../modules/Users/entities/persona.entity';
+import { CreateUserDto } from 'src/dtos/users.dto';
+import { typeDocument } from '../entities/persona.entity';
 
 export const USERS: CreateUserDto[] = [
   {
