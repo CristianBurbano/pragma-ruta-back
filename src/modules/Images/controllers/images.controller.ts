@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
-import { CreateImageDto, UpdateImageDto } from '../../dtos/image.dto';
-import { ImagesService } from '../../services/images/images/images.service';
+import { CreateImageDto, UpdateImageDto } from '../dtos/image.dto';
+import { ImagesService } from '../services/images.service';
 
 @ApiTags('Imagenes')
 @Controller('images')
