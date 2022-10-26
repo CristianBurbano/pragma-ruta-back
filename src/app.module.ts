@@ -9,6 +9,8 @@ import { Imagen } from './entities/imagen.entity';
 
 import { UsersModule } from './modules/users.module';
 import { ImagesModule } from './modules/images.module';
+import { UsersService } from './services/users/users.service';
+import { ImagesService } from './services/images/images/images.service';
 
 @Module({
   imports: [

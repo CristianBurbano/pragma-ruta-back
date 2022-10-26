@@ -4,22 +4,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  Repository,
-  FindOptionsWhere,
-  MoreThanOrEqual,
-  LessThanOrEqual,
-  Between,
-} from 'typeorm';
-import { CreateUserDto, UpdateUserDto } from 'src/dtos/users.dto';
+import { Repository, FindOptionsWhere, Between } from 'typeorm';
+import { CreateUserDto, UpdateUserDto } from '../../dtos/users.dto';
 
-import { Persona } from 'src/entities/persona.entity';
-import { USERS } from 'src/mocks/users';
+import { Persona } from '../../entities/persona.entity';
 
 @Injectable()
 export class UsersService {
-  users: Persona[] = [...USERS];
-
   constructor(
     @InjectRepository(Persona) private usersRepository: Repository<Persona>,
   ) {}
@@ -54,40 +45,22 @@ export class UsersService {
     // );
   }
 
-  findOne(id: number): Persona {
-    const user = this.users.find((p) => p.id == id);
+  async findOne(id: number): Promise<Persona> {
+    const user = await this.usersRepository.findOneBy({ id });
     if (!user) throw new NotFoundException(`Usuario ${id} no encontrado`);
     else return user;
   }
 
   create(payload: CreateUserDto) {
     const newUser = this.usersRepository.create(payload);
-
-    // const newUser = {
-    //   id: this.users.length + 1,
-    //   ...payload,
-    // };
-    // this.users.push(newUser);
     return this.usersRepository.save(newUser);
   }
 
   async udpate(id, payload: UpdateUserDto) {
-    // const index = this.users.findIndex((user) => user.id == id);
-    // if (index < 0) {
-    //   throw new NotFoundException('Usuario no encontrado');
-    // } else {
-    //   const newUser = {
-    //     ...this.users[index],
-    //     ...payload,
-    //   };
-    //   this.users.splice(index, 1);
-    //   this.users.push(newUser);
-    //   return newUser;
-    // }
-    const persona = await this.usersRepository.findOne({ where: { id } });
+    const persona = await this.findOne(id);
     this.usersRepository.merge(persona, payload);
 
-    this.usersRepository.save(persona);
+    return this.usersRepository.save(persona);
   }
 
   delete(id: number) {

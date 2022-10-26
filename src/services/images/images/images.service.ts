@@ -1,11 +1,7 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateImageDto, UpdateImageDto } from 'src/dtos/image.dto';
-import { Imagen } from 'src/entities/imagen.entity';
+import { Imagen } from '../../../entities/imagen.entity';
 import { Repository } from 'typeorm';
 import { ObjectID } from 'mongodb';
 

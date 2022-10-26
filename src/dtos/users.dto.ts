@@ -1,6 +1,7 @@
 import { PartialType, ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsPositive } from 'class-validator';
-import { typeDocument } from 'src/entities/persona.entity';
+import { Type } from 'class-transformer';
+import { IsInt, IsNotEmpty, IsOptional, IsPositive } from 'class-validator';
+import { typeDocument } from '../entities/persona.entity';
 
 // class IdentificacionDto {
 //   readonly tipo: string;
@@ -9,8 +10,10 @@ import { typeDocument } from 'src/entities/persona.entity';
 
 export class CreateUserDto {
   @ApiProperty({ description: 'Edad del usuario' })
+  @Type(() => Number)
   @IsNotEmpty()
   @IsPositive()
+  @IsInt()
   readonly age: number;
 
   @ApiProperty({ description: 'Número de Identificación del Usuario' })

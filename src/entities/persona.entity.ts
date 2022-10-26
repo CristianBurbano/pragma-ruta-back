@@ -34,6 +34,9 @@ export class Persona implements IPersona {
   @Column()
   middleName: string;
   @Column()
+  lastName: string;
+
+  @Column()
   age: number;
 
   @Column({ type: 'varchar' })
@@ -47,7 +50,6 @@ export class Persona implements IPersona {
 
   @CreateDateColumn({
     type: 'timestamp',
-    // default: () => 'CURRENT_TIMESTAMP',
   })
   createAt: Date;
 

@@ -1,40 +1,35 @@
-import { Persona, typeDocument } from 'src/entities/persona.entity';
+import { CreateUserDto } from 'src/dtos/users.dto';
+import { typeDocument } from '../entities/persona.entity';
 
-export const USERS: Persona[] = [
+export const USERS: CreateUserDto[] = [
   {
-    id: 1,
     firstName: 'Cristian',
-    middleName: 'Burbano',
+    middleName: 'Yamith',
+    lastName: 'Burbano',
     birthplace: 'La Plata, Huila',
     age: 28,
     documentType: typeDocument.CC,
     document: '1234343',
     photo: 'dfdfdfd',
-    createAt: new Date(),
-    updateAt: new Date(),
   },
   {
-    id: 2,
     firstName: 'Pepito',
-    middleName: 'Perez',
+    middleName: 'dfdf',
+    lastName: 'Perez',
     birthplace: 'Bogotá, Cundinamarca',
     age: 20,
     documentType: typeDocument.TI,
     document: '5433443',
     photo: 'dfdfccrgbfgfgfgff',
-    createAt: new Date(),
-    updateAt: new Date(),
   },
   {
-    id: 3,
     firstName: 'Pepito',
     middleName: 'Perez',
+    lastName: 'Camargo',
     birthplace: 'Bogotá, Cundinamarca',
     age: 40,
     documentType: typeDocument.CE,
     document: '5433443',
     photo: 'dfdfccrgbfgfgfgff',
-    createAt: new Date(),
-    updateAt: new Date(),
   },
 ];

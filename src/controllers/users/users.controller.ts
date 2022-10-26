@@ -9,10 +9,10 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from 'src/dtos/users.dto';
+import { CreateUserDto, UpdateUserDto } from '../../dtos/users.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
-import { UsersService } from 'src/services/users/users.service';
+import { UsersService } from '../../services/users/users.service';
 
 @ApiTags('Usuarios')
 @Controller('users')
@@ -37,6 +37,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Crear Usuario' })
   @Post()
   createUser(@Body() payload: CreateUserDto) {
+    console.log('payload', payload);
     return this.UserService.create(payload);
   }
 
