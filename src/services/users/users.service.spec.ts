@@ -5,9 +5,13 @@ import { Repository } from 'typeorm';
 import { Persona } from '../../entities/persona.entity';
 import { UsersService } from './users.service';
 import { plainToInstance } from 'class-transformer';
+import { ImagesService } from '../images/images/images.service';
+import { ObjectID } from 'mongodb';
+import { ImagesModule } from '../../modules/images.module';
 
 describe('UsersService', () => {
   let service: UsersService;
+  let imageService: ImagesService;
   let userRepository: Repository<Persona>;
   const mockPersona = USERS;
 
@@ -15,8 +19,15 @@ describe('UsersService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      // imports: [ImagesModule],
       providers: [
         UsersService,
+        {
+          provide: ImagesService,
+          useValue: {
+            createImage: jest.fn(),
+          },
+        },
         {
           provide: USER_REPOSITORY_TOKEN,
           useValue: {
@@ -32,6 +43,7 @@ describe('UsersService', () => {
     }).compile();
 
     service = module.get<UsersService>(UsersService);
+    imageService = module.get<ImagesService>(ImagesService);
     userRepository = module.get<Repository<Persona>>(USER_REPOSITORY_TOKEN);
   });
 
@@ -41,9 +53,19 @@ describe('UsersService', () => {
 
   describe('Crear Usuario', () => {
     it('debería llamar al metodo create del repositorio', async () => {
-      // jest.spyOn(userRepository, 'create').mockReturnValueOnce(mockPersona[0]);
-      service.create(mockPersona[0]);
-      expect(userRepository.create).toBeCalledWith(mockPersona[0]);
+      const imageCreated = {
+        _id: new ObjectID(),
+        bs64: 'databs64',
+        name: 'imagen Prueba',
+      };
+      jest
+        .spyOn(imageService, 'createImage')
+        .mockResolvedValueOnce(imageCreated);
+      await service.create(mockPersona[0]);
+      expect(userRepository.create).toBeCalledWith({
+        ...mockPersona[0],
+        photo: imageCreated._id.toString(),
+      });
     });
   });
   describe('Eliminar Usuario', () => {

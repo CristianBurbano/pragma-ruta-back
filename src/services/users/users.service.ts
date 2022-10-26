@@ -8,11 +8,13 @@ import { Repository, FindOptionsWhere, Between } from 'typeorm';
 import { CreateUserDto, UpdateUserDto } from '../../dtos/users.dto';
 
 import { Persona } from '../../entities/persona.entity';
+import { ImagesService } from '../images/images/images.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(Persona) private usersRepository: Repository<Persona>,
+    private imageService: ImagesService,
   ) {}
 
   async findAll(): Promise<Persona[]> {
@@ -51,8 +53,16 @@ export class UsersService {
     else return user;
   }
 
-  create(payload: CreateUserDto) {
-    const newUser = this.usersRepository.create(payload);
+  async create(payload: CreateUserDto) {
+    const newImage = await this.imageService.createImage({
+      bs64: payload.photo,
+      name: 'nombre Ejemplo' + new Date().toTimeString(),
+      type: 'png',
+    });
+    const newUser = this.usersRepository.create({
+      ...payload,
+      photo: newImage._id.toString(),
+    });
     return this.usersRepository.save(newUser);
   }
 

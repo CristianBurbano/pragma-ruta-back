@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { USERS } from '../../mocks/users';
+import { USERS } from '../../../mocks/users';
 import { Repository } from 'typeorm';
-import { Persona } from '../../modules/Users/entities/persona.entity';
+import { Persona } from '../../../modules/Users/entities/persona.entity';
 import { UsersService } from './users.service';
 import { plainToInstance } from 'class-transformer';
 
