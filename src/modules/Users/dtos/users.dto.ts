@@ -1,7 +1,7 @@
 import { PartialType, ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsInt, IsNotEmpty, IsOptional, IsPositive } from 'class-validator';
-import { typeDocument } from '../entities/persona.entity';
+import { typeDocument } from '../../../entities/persona.entity';
 
 // class IdentificacionDto {
 //   readonly tipo: string;

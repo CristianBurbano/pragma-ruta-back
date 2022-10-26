@@ -1,6 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateImageDto, UpdateImageDto } from 'src/dtos/image.dto';
+import {
+  CreateImageDto,
+  UpdateImageDto,
+} from 'src/modules/Images/dtos/image.dto';
 import { Imagen } from '../../../entities/imagen.entity';
 import { Repository } from 'typeorm';
 import { ObjectID } from 'mongodb';

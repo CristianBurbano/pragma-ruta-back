@@ -7,8 +7,8 @@ import { environtments, schema } from 'environments/environments';
 import { Persona } from './entities/persona.entity';
 import { Imagen } from './entities/imagen.entity';
 
-import { UsersModule } from './modules/users.module';
-import { ImagesModule } from './modules/images.module';
+import { UsersModule } from './modules/Users/users.module';
+import { ImagesModule } from './modules/Images/images.module';
 
 @Module({
   imports: [

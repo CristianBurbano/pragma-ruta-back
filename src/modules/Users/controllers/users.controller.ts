@@ -9,10 +9,10 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from '../../dtos/users.dto';
+import { CreateUserDto, UpdateUserDto } from '../dtos/users.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
-import { UsersService } from '../../services/users/users.service';
+import { UsersService } from '../services/users.service';
 
 @ApiTags('Usuarios')
 @Controller('users')

@@ -1,13 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { USERS } from '../../mocks/users';
+import { USERS } from '../../../mocks/users';
 import { Repository } from 'typeorm';
-import { Persona } from '../../entities/persona.entity';
+import { Persona } from '../../../entities/persona.entity';
 import { UsersService } from './users.service';
 import { plainToInstance } from 'class-transformer';
-import { ImagesService } from '../images/images/images.service';
+import { ImagesService } from '../../Images/services/images.service';
 import { ObjectID } from 'mongodb';
-import { ImagesModule } from '../../modules/images.module';
 
 describe('UsersService', () => {
   let service: UsersService;
