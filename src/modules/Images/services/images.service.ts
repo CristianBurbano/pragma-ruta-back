@@ -4,7 +4,7 @@ import {
   CreateImageDto,
   UpdateImageDto,
 } from 'src/modules/Images/dtos/image.dto';
-import { Imagen } from '../../../entities/imagen.entity';
+import { Imagen } from '../entities/imagen.entity';
 import { Repository } from 'typeorm';
 import { ObjectID } from 'mongodb';
 

@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOptionsWhere, Between } from 'typeorm';
 import { CreateUserDto, UpdateUserDto } from '../dtos/users.dto';
 
-import { Persona } from '../../../entities/persona.entity';
+import { Persona } from '../entities/persona.entity';
 import { ImagesService } from '../../Images/services/images.service';
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateImageDto } from '../dtos/image.dto';
-import { Imagen } from '../../../entities/imagen.entity';
+import { Imagen } from '../entities/imagen.entity';
 import { Repository } from 'typeorm';
 import { ImagesService } from './images.service';
 import { plainToInstance } from 'class-transformer';
