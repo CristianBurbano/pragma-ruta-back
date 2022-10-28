@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersController } from 'src/Users/controllers/users.controller';
-import { Persona } from './entities/persona.entity';
+
+import { UsersController } from 'src/Users/infrastructure/controllers/users.controller';
 import { UsersService } from 'src/Users/services/users.service';
-import { ImagesModule } from '../modules/Images/images.module';
+import { ImagesModule } from '../Images/images.module';
+import { ConfigModule } from './infrastructure/config/config.module';
+import { RepositoriesModule } from './infrastructure/repositories/repositories.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Persona]), ImagesModule],
+  imports: [ImagesModule, ConfigModule, RepositoriesModule],
   controllers: [UsersController],
-  providers: [UsersService],
-  exports: [UsersService],
+  // providers: [UsersService],
+  // exports: [UsersService],
 })
 export class UsersModule {}
