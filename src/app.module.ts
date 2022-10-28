@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 import config from 'environments/config';
 import { environtments, schema } from 'environments/environments';
-import { Imagen } from './Images/infrastructure/entities/imagen.entity';
 
 import { UsersModule } from './Users/users.module';
 import { ImagesModule } from './Images/images.module';
+import { LoggerModule } from './common/infrastructure/logger/logger.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -20,6 +20,8 @@ import { ImagesModule } from './Images/images.module';
       isGlobal: true,
       validationSchema: schema,
     }),
+    LoggerModule,
+    CommonModule,
   ],
 })
 export class AppModule {}

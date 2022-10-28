@@ -24,6 +24,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('', app, document);
 
+  // app.useGlobalFilters(new AllExceptionFilter(new LoggerService()));
+  //   app.useGlobalInterceptors(new LoggingInterceptor(new LoggerService()));
+  // app.useGlobalInterceptors(new ResponseInterceptor());
+
   app.enableCors();
   await app.listen(process.env.PORT || 3000);
 }
