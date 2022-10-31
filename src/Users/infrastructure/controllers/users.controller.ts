@@ -19,6 +19,7 @@ import { getUserUseCases } from 'src/Users/usecases/getUser.usecases';
 import { deleteUserUseCases } from 'src/Users/usecases/deleteUser.usecases';
 import { updateUserUseCases } from 'src/Users/usecases/updateUser.usecases';
 import { addUserUseCases } from 'src/Users/usecases/addUser.usecases';
+import { ImageRepository } from 'src/Images/infrastructure/repositories/imageRepository.service';
 
 @ApiTags('Usuarios')
 @Controller('users')
@@ -28,7 +29,7 @@ export class UsersController {
     getUser: new getUserUseCases(this.userRepository),
     deleteUser: new deleteUserUseCases(this.userRepository),
     updateUser: new updateUserUseCases(this.userRepository),
-    createUser: new addUserUseCases(this.userRepository),
+    createUser: new addUserUseCases(this.userRepository, this.imageRepository),
   };
 
   @ApiOperation({ summary: 'Consulta de los Usuarios' })
@@ -77,5 +78,8 @@ export class UsersController {
     return 'success';
   }
 
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    private userRepository: UserRepository,
+    private imageRepository: ImageRepository,
+  ) {}
 }

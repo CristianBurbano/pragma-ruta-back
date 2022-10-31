@@ -22,22 +22,23 @@ export class ImageRepository implements IImageRepository {
       },
     });
   }
+  private parseEntityToModel(entity: Imagen): Image {
+    return plainToInstance(Image, { ...entity, id: entity._id.toString() });
+  }
 
   async findAll(): Promise<Image[]> {
     const entities = await this.imageRepo.find();
-    return entities.map((entity) =>
-      plainToInstance(Image, { ...entity, id: entity._id }),
-    );
+    return entities.map((entity) => this.parseEntityToModel(entity));
   }
   async findOneById(id: string): Promise<Image> {
     const entity = await this.findEntity(id);
-    return plainToInstance(Image, entity);
+    return this.parseEntityToModel(entity);
   }
 
   async create(payload: Image): Promise<Image> {
     const newImage = this.imageRepo.create(payload);
     const entity = await this.imageRepo.save(newImage);
-    return plainToInstance(Image, entity);
+    return this.parseEntityToModel(entity);
   }
   async update(id: string, payload: Image): Promise<void> {
     const image = await this.findEntity(id);

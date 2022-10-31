@@ -6,11 +6,11 @@ import { environtments, schema } from 'environments/environments';
 
 import { UsersModule } from './Users/users.module';
 import { ImagesModule } from './Images/images.module';
-import { LoggerModule } from './common/infrastructure/logger/logger.module';
 import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
+    CommonModule,
     UsersModule,
     ImagesModule,
     ConfigModule.forRoot({
@@ -20,8 +20,6 @@ import { CommonModule } from './common/common.module';
       isGlobal: true,
       validationSchema: schema,
     }),
-    LoggerModule,
-    CommonModule,
   ],
 })
 export class AppModule {}

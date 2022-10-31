@@ -6,5 +6,6 @@ import { RepositoriesModule } from './infrastructure/repositories/repositories.m
 @Module({
   imports: [ConfigModule, RepositoriesModule],
   controllers: [ImagesController],
+  exports: [RepositoriesModule],
 })
 export class ImagesModule {}

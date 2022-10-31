@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AllExceptionFilter } from './common/infrastructure/filter/exception.filter';
+import { LoggerService } from './common/infrastructure/logger/looger.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -24,8 +26,8 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('', app, document);
 
-  // app.useGlobalFilters(new AllExceptionFilter(new LoggerService()));
-  //   app.useGlobalInterceptors(new LoggingInterceptor(new LoggerService()));
+  app.useGlobalFilters(new AllExceptionFilter(new LoggerService()));
+  // app.useGlobalInterceptors(new LoggingInterceptor(new LoggerService()));
   // app.useGlobalInterceptors(new ResponseInterceptor());
 
   app.enableCors();
