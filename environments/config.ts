@@ -15,4 +15,9 @@ export default registerAs('config', () => ({
     port: process.env.MONGO_PORT,
     host: process.env.MONGO_HOST,
   },
+  aws: {
+    key: process.env.AWS_ACESS_KEY,
+    secret_key: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION,
+  },
 }));

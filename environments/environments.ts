@@ -20,6 +20,10 @@ export const schema = Joi.object({
   MONGO_PORT: Joi.number().required(),
   MONGO_HOST: Joi.string().required(),
 
+  AWS_ACESS_KEY: Joi.string().required(),
+  AWS_SECRET_ACCESS_KEY: Joi.string().required(),
+  AWS_REGION: Joi.string().required(),
+
   TYPEORM_SYNCHRONIZE: Joi.boolean(),
   TYPEORM_LOGGING: Joi.boolean(),
   TYPEORM_ENTITIES: Joi.string(),

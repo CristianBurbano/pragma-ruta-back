@@ -3,7 +3,9 @@ import {
   PutObjectCommand,
   DeleteObjectCommand,
 } from '@aws-sdk/client-s3';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
+import config from 'environments/config';
 import { FileS3Response } from 'src/Images/domain/model/file';
 import { IFileRepository } from 'src/Images/domain/repositories/file.repository';
 
@@ -47,12 +49,13 @@ export class FileRepository implements IFileRepository {
     console.log(result);
   }
 
-  constructor() {
+  constructor(@Inject('awsConfig') aws: any) {
+    console.log('aws', aws);
     this.client = new S3Client({
-      region: 'us-east-1',
+      region: aws.region,
       credentials: {
-        accessKeyId: 'DDEFED',
-        secretAccessKey: 'DFEDEDEFE',
+        accessKeyId: aws.key,
+        secretAccessKey: aws.secret_key,
       },
     });
   }
