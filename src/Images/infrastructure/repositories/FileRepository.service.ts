@@ -51,8 +51,8 @@ export class FileRepository implements IFileRepository {
     this.client = new S3Client({
       region: 'us-east-1',
       credentials: {
-        accessKeyId: 'AKIASREHL6SVXJSPZCN3',
-        secretAccessKey: '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',
+        accessKeyId: 'DDEFED',
+        secretAccessKey: 'DFEDEDEFE',
       },
     });
   }
