@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { IuserRepository } from 'src/Users/domain/repositories/userRepository.interface';
@@ -61,7 +61,13 @@ export class UserRepository implements IuserRepository {
     await this.userRepo.save(persona);
   }
 
-  async deleteUser(id: number): Promise<void> {
-    await this.userRepo.delete(id);
+  async deleteUser(id: number): Promise<User> {
+    const persona = await this.getUserById(id);
+    if (persona) {
+      await this.userRepo.delete(id);
+      return persona;
+    } else {
+      throw new NotFoundException(null, 'Usuario no encontrado');
+    }
   }
 }

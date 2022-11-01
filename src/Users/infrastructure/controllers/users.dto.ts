@@ -10,8 +10,8 @@ import { typeDocument } from '../../domain/model/user';
 // }
 
 export class CreateUserDto {
-  @ApiProperty({ description: 'Edad del usuario' })
   @Type(() => Number)
+  @ApiProperty({ description: 'Edad del usuario' })
   @IsNotEmpty()
   @IsPositive()
   @IsInt()
@@ -45,7 +45,7 @@ export class CreateUserDto {
   readonly birthplace: string;
 
   @ApiProperty({ description: 'Foto del Usuario en Base 64' })
-  @IsNotEmpty()
+  @IsOptional()
   readonly photo: string;
 }
 export class UpdateUserDto extends PartialType(CreateUserDto) {}

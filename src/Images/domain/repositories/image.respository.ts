@@ -5,5 +5,5 @@ export interface IImageRepository {
   findOneById(id: string): Promise<Image>;
   create(payload: Image): Promise<Image>;
   update(id: string, payload: Image): Promise<void>;
-  delete(id: string): Promise<void>;
+  delete(id: string): Promise<Image>;
 }

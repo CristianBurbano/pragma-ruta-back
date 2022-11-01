@@ -1,18 +1,14 @@
-import { IImageRepository } from 'src/Images/domain/repositories/image.respository';
+import { addImageUseCases } from 'src/Images/usecases/addImage.usecases';
 import { User } from '../domain/model/user';
 import { IuserRepository } from '../domain/repositories/userRepository.interface';
 
 export class addUserUseCases {
   constructor(
     private readonly userRepository: IuserRepository,
-    private readonly imageRepository: IImageRepository,
+    private readonly addImage: addImageUseCases,
   ) {}
   async execute(payload: any): Promise<User> {
-    const image = await this.imageRepository.create({
-      bs64: payload.photo,
-      name: payload.firstName + payload.lastName + new Date().getTime(),
-      id: null,
-    });
+    const image = await this.addImage.execute(payload.photo);
     const result = await this.userRepository.createUser({
       ...payload,
       photo: image.id,

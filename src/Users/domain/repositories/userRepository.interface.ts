@@ -10,5 +10,5 @@ export interface IuserRepository {
   createUser(user: User): Promise<User>;
 
   updateUser(id: number, payload: any): Promise<void>;
-  deleteUser(id: number): Promise<void>;
+  deleteUser(id: number): Promise<User>;
 }

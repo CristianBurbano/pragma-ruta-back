@@ -12,5 +12,8 @@ export class Imagen {
   name: string;
 
   @Column()
-  bs64: string;
+  url: string;
+
+  // @Column()
+  // bs64: string;
 }

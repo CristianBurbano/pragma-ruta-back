@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ObjectID } from 'mongodb';
@@ -16,11 +16,13 @@ export class ImageRepository implements IImageRepository {
   ) {}
 
   private async findEntity(id: string): Promise<Imagen> {
-    return await this.imageRepo.findOne({
+    const image = await this.imageRepo.findOne({
       where: {
         _id: new ObjectID(id),
       },
     });
+    if (image) return image;
+    else throw new NotFoundException(null, 'Imagen no encontrada');
   }
   private parseEntityToModel(entity: Imagen): Image {
     return plainToInstance(Image, { ...entity, id: entity._id.toString() });
@@ -45,8 +47,9 @@ export class ImageRepository implements IImageRepository {
     this.imageRepo.merge(image, payload);
     await this.imageRepo.save(image);
   }
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<Image> {
     const image = await this.findEntity(id);
     this.imageRepo.delete(image);
+    return this.parseEntityToModel(image);
   }
 }

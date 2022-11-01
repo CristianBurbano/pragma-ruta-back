@@ -5,9 +5,12 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
@@ -20,6 +23,10 @@ import { deleteUserUseCases } from 'src/Users/usecases/deleteUser.usecases';
 import { updateUserUseCases } from 'src/Users/usecases/updateUser.usecases';
 import { addUserUseCases } from 'src/Users/usecases/addUser.usecases';
 import { ImageRepository } from 'src/Images/infrastructure/repositories/imageRepository.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { addImageUseCases } from 'src/Images/usecases/addImage.usecases';
+import { FileRepository } from 'src/Images/infrastructure/repositories/FileRepository.service';
+import { deleteImageUseCases } from 'src/Images/usecases/deleteImage.usecases';
 
 @ApiTags('Usuarios')
 @Controller('users')
@@ -27,9 +34,15 @@ export class UsersController {
   private useCases = {
     getUsers: new getUsersUseCases(this.userRepository),
     getUser: new getUserUseCases(this.userRepository),
-    deleteUser: new deleteUserUseCases(this.userRepository),
+    deleteUser: new deleteUserUseCases(
+      this.userRepository,
+      new deleteImageUseCases(this.imageRepository, this.fileRepository),
+    ),
     updateUser: new updateUserUseCases(this.userRepository),
-    createUser: new addUserUseCases(this.userRepository, this.imageRepository),
+    createUser: new addUserUseCases(
+      this.userRepository,
+      new addImageUseCases(this.imageRepository, this.fileRepository),
+    ),
   };
 
   @ApiOperation({ summary: 'Consulta de los Usuarios' })
@@ -51,8 +64,13 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Crear Usuario' })
   @Post()
-  createUser(@Body() payload: CreateUserDto) {
-    return this.useCases.createUser.execute(payload);
+  @UseInterceptors(FileInterceptor('photo'))
+  createUser(
+    @Body() payload: CreateUserDto,
+    @UploadedFile() photo: Express.Multer.File,
+  ) {
+    console.log('payload', payload);
+    return this.useCases.createUser.execute({ ...payload, photo });
   }
 
   @ApiOperation({ summary: 'Obtener Usuario por Id' })
@@ -81,5 +99,6 @@ export class UsersController {
   constructor(
     private userRepository: UserRepository,
     private imageRepository: ImageRepository,
+    private fileRepository: FileRepository,
   ) {}
 }

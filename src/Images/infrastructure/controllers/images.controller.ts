@@ -6,8 +6,13 @@ import {
   Post,
   Put,
   Param,
+  Patch,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+
 import { addImageUseCases } from '../../usecases/addImage.usecases';
 import { deleteImageUseCases } from '../../usecases/deleteImage.usecases';
 import { getImagesUseCases } from '../../usecases/getImage.usecases';
@@ -15,14 +20,15 @@ import { updateImageUseCases } from '../../usecases/updateImage.usecases';
 
 import { CreateImageDto, UpdateImageDto } from './image.dto';
 import { ImageRepository } from '../repositories/imageRepository.service';
+import { FileRepository } from '../repositories/FileRepository.service';
 
 @ApiTags('Imagenes')
 @Controller('images')
 export class ImagesController {
   imageUseCases = {
-    create: new addImageUseCases(this.imgRepository),
+    create: new addImageUseCases(this.imgRepository, this.fileRepository),
     update: new updateImageUseCases(this.imgRepository),
-    delete: new deleteImageUseCases(this.imgRepository),
+    delete: new deleteImageUseCases(this.imgRepository, this.fileRepository),
     find: new getImagesUseCases(this.imgRepository),
   };
 
@@ -33,9 +39,10 @@ export class ImagesController {
   }
 
   @ApiOperation({ summary: 'Crear una imagen' })
+  @UseInterceptors(FileInterceptor('file'))
   @Post()
-  createImage(@Body() payload: CreateImageDto) {
-    return this.imageUseCases.create.execute(payload);
+  createImage(@UploadedFile() file: Express.Multer.File) {
+    return this.imageUseCases.create.execute(file);
   }
 
   @ApiOperation({ summary: 'Obtener una imagen por su ID' })
@@ -55,5 +62,17 @@ export class ImagesController {
   deleteImage(@Param('id') id: string) {
     return this.imageUseCases.delete.exec(id);
   }
-  constructor(private imgRepository: ImageRepository) {}
+
+  @Patch()
+  @UseInterceptors(FileInterceptor('photo'))
+  pruebaArchivo(@Body() body: any, @UploadedFile() file: Express.Multer.File) {
+    console.log('body', body);
+    console.log('file', file);
+    this.fileRepository.insert(file);
+  }
+
+  constructor(
+    private imgRepository: ImageRepository,
+    private fileRepository: FileRepository,
+  ) {}
 }
