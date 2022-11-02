@@ -5,7 +5,6 @@ import {
   Get,
   Param,
   ParseIntPipe,
-  Patch,
   Post,
   Put,
   Query,
@@ -14,37 +13,17 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-
-import { UserRepository } from '../repositories/userRepository.service';
-
-import { getUsersUseCases } from 'src/Users/usecases/getUsers.usecases';
-import { getUserUseCases } from 'src/Users/usecases/getUser.usecases';
-import { deleteUserUseCases } from 'src/Users/usecases/deleteUser.usecases';
-import { updateUserUseCases } from 'src/Users/usecases/updateUser.usecases';
-import { addUserUseCases } from 'src/Users/usecases/addUser.usecases';
-import { ImageRepository } from 'src/Images/infrastructure/repositories/imageRepository.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { addImageUseCases } from 'src/Images/usecases/addImage.usecases';
-import { FileRepository } from 'src/Images/infrastructure/repositories/FileRepository.service';
-import { deleteImageUseCases } from 'src/Images/usecases/deleteImage.usecases';
+
+import { getUsersUseCases } from '../../usecases/getUsers.usecases';
+import { getUserUseCases } from '../../usecases/getUser.usecases';
+import { deleteUserUseCases } from '../../usecases/deleteUser.usecases';
+import { updateUserUseCases } from '../../usecases/updateUser.usecases';
+import { addUserUseCases } from '../../usecases/addUser.usecases';
 
 @ApiTags('Usuarios')
 @Controller('users')
 export class UsersController {
-  private useCases = {
-    getUsers: new getUsersUseCases(this.userRepository),
-    getUser: new getUserUseCases(this.userRepository),
-    deleteUser: new deleteUserUseCases(
-      this.userRepository,
-      new deleteImageUseCases(this.imageRepository, this.fileRepository),
-    ),
-    updateUser: new updateUserUseCases(this.userRepository),
-    createUser: new addUserUseCases(
-      this.userRepository,
-      new addImageUseCases(this.imageRepository, this.fileRepository),
-    ),
-  };
-
   @ApiOperation({ summary: 'Consulta de los Usuarios' })
   @Get()
   getUsers(
@@ -54,11 +33,11 @@ export class UsersController {
     @Query('maxAge') maxAge: number,
   ) {
     if (type && value) {
-      return this.useCases.getUser.byDocument(type, value);
+      return this.getUserUseCase.byDocument(type, value);
     } else {
       if (maxAge || minAge) {
-        return this.useCases.getUsers.getByAge(minAge, maxAge);
-      } else return this.useCases.getUsers.execute();
+        return this.getUsersUseCase.getByAge(minAge, maxAge);
+      } else return this.getUsersUseCase.execute();
     }
   }
 
@@ -70,13 +49,13 @@ export class UsersController {
     @UploadedFile() photo: Express.Multer.File,
   ) {
     console.log('payload', payload);
-    return this.useCases.createUser.execute({ ...payload, photo });
+    return this.createUserUseCase.execute({ ...payload, photo });
   }
 
   @ApiOperation({ summary: 'Obtener Usuario por Id' })
   @Get(':id')
   getUser(@Param('id', ParseIntPipe) id: number) {
-    return this.useCases.getUser.byId(id);
+    return this.getUserUseCase.byId(id);
   }
 
   @ApiOperation({ summary: 'Modificar propiedades del usuario' })
@@ -85,20 +64,22 @@ export class UsersController {
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateUserDto,
   ) {
-    await this.useCases.updateUser.exec(id, payload);
+    await this.updateUserUseCase.exec(id, payload);
     return 'success';
   }
 
   @ApiOperation({ summary: 'Eliminar Usuario' })
   @Delete(':id')
   async deleteUser(@Param('id', ParseIntPipe) id) {
-    await this.useCases.deleteUser.exec(id);
+    await this.deleteUserUseCase.exec(id);
     return 'success';
   }
 
   constructor(
-    private userRepository: UserRepository,
-    private imageRepository: ImageRepository,
-    private fileRepository: FileRepository,
+    private getUserUseCase: getUserUseCases,
+    private getUsersUseCase: getUsersUseCases,
+    private updateUserUseCase: updateUserUseCases,
+    private deleteUserUseCase: deleteUserUseCases,
+    private createUserUseCase: addUserUseCases,
   ) {}
 }

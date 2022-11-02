@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 
 import { UsersController } from 'src/Users/infrastructure/controllers/users.controller';
-import { ImagesModule } from '../Images/images.module';
 import { ConfigModule } from './infrastructure/config/config.module';
 import { RepositoriesModule } from './infrastructure/repositories/repositories.module';
+import { UseCaseProxyModule } from './infrastructure/useCasesProxy/useCaseProxy.module';
 
 @Module({
-  imports: [ImagesModule, ConfigModule, RepositoriesModule],
+  imports: [ConfigModule, RepositoriesModule, UseCaseProxyModule],
   controllers: [UsersController],
   // providers: [UsersService],
   // exports: [UsersService],
