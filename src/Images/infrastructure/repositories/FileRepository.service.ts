@@ -4,8 +4,6 @@ import {
   DeleteObjectCommand,
 } from '@aws-sdk/client-s3';
 import { Inject, Injectable } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
-import config from 'environments/config';
 import { FileS3Response } from 'src/Images/domain/model/file';
 import { IFileRepository } from 'src/Images/domain/repositories/file.repository';
 
@@ -50,7 +48,6 @@ export class FileRepository implements IFileRepository {
   }
 
   constructor(@Inject('awsConfig') aws: any) {
-    console.log('aws', aws);
     this.client = new S3Client({
       region: aws.region,
       credentials: {

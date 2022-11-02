@@ -1,8 +1,8 @@
 import { Module, Provider } from '@nestjs/common';
-import { addImageUseCases } from 'src/Images/usecases/addImage.usecases';
-import { deleteImageUseCases } from 'src/Images/usecases/deleteImage.usecases';
-import { getImagesUseCases } from 'src/Images/usecases/getImage.usecases';
-import { updateImageUseCases } from 'src/Images/usecases/updateImage.usecases';
+import { addImageUseCases } from '../../usecases/addImage.usecases';
+import { deleteImageUseCases } from '../../usecases/deleteImage.usecases';
+import { getImagesUseCases } from '../../usecases/getImage.usecases';
+import { updateImageUseCases } from '../../usecases/updateImage.usecases';
 import { FileRepository } from '../repositories/FileRepository.service';
 import { ImageRepository } from '../repositories/imageRepository.service';
 import { RepositoriesModule } from '../repositories/repositories.module';
@@ -16,8 +16,9 @@ const injectables = [
   },
   {
     provide: updateImageUseCases,
-    inject: [ImageRepository],
-    use: (...args: [ImageRepository]) => new updateImageUseCases(...args),
+    inject: [ImageRepository, FileRepository],
+    use: (...args: [ImageRepository, FileRepository]) =>
+      new updateImageUseCases(...args),
   },
   {
     provide: deleteImageUseCases,

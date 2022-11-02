@@ -10,4 +10,8 @@ export class getUsersUseCases {
   async getByAge(min: number, max: number): Promise<User[]> {
     return this.userRepository.getUsersByAge(min, max);
   }
+
+  async getByDocument(document: string): Promise<User[]> {
+    return this.userRepository.getUsersByDocument(document);
+  }
 }

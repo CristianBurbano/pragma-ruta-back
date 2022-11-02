@@ -1,10 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { IuserRepository } from 'src/Users/domain/repositories/userRepository.interface';
+import { IuserRepository } from '../../domain/repositories/userRepository.interface';
 import { Between, FindOptionsWhere, Repository } from 'typeorm';
 
-import { User, typeDocument } from 'src/Users/domain/model/user';
+import { User, typeDocument } from '../../domain/model/user';
 import { Persona } from '../entities/persona.entity';
 import { plainToInstance } from 'class-transformer';
 
@@ -32,6 +37,11 @@ export class UserRepository implements IuserRepository {
     return plainToInstance(User, user);
   }
 
+  async getUsersByDocument(document: string): Promise<User[]> {
+    const entities = await this.userRepo.find({ where: { document } });
+    return plainToInstance(User, entities);
+  }
+
   async getUsersByAge(min = 0, max = 999): Promise<User[]> {
     const where: FindOptionsWhere<Persona> = {};
     if (min || max) {
@@ -52,8 +62,17 @@ export class UserRepository implements IuserRepository {
         ...user,
       }),
     );
-    const entity = await this.userRepo.save(newUser);
-    return plainToInstance(User, entity);
+    try {
+      const entity = await this.userRepo.save(newUser);
+      return plainToInstance(User, entity);
+    } catch (e) {
+      switch (e.code) {
+        case 'ER_DUP_ENTRY':
+          throw new NotAcceptableException(null, 'Usuario ya existe!');
+        default:
+          throw new InternalServerErrorException(null, e.sqlMessage);
+      }
+    }
   }
   async updateUser(id: number, payload: any): Promise<void> {
     const persona = await this.getUserById(id);

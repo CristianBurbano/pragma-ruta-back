@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import { ObjectID } from 'mongodb';
 import { plainToInstance } from 'class-transformer';
 
-import { Image } from 'src/Images/domain/model/Image';
-import { IImageRepository } from 'src/Images/domain/repositories/image.respository';
+import { Image } from '../../domain/model/Image';
+import { IImageRepository } from '../../domain/repositories/image.respository';
 import { Imagen } from '../entities/imagen.entity';
 
 @Injectable()

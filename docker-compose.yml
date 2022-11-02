@@ -19,7 +19,7 @@ services:
     #   - '3306'
     #   # Where our data will be persisted
     volumes:
-      - ./mysql_data:/var/lib/mysql
+      - ./db/mysql_data:/var/lib/mysql
   
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -42,7 +42,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-     - ./mongo_data:/data/db
+     - ./db/mongo_data:/data/db
 
   mongo_express:
     image: mongo-express
@@ -56,7 +56,16 @@ services:
     depends_on:
       - mongo
     
-
-# Names our volume
-# volumes:
-#   my-db:
+  # node:
+  #   image: node:19
+  #   ports: 
+  #     - '3001:3001'
+  #   depends_on:
+  #     - mysql
+  #     - mongo
+  #     - phpmyadmin
+  #     - mongo_express
+  #   volumes:
+  #     - ./prueba:/home/node/backend
+  #   working_dir: ./
+  #   command: npm run dev

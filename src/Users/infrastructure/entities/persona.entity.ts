@@ -1,13 +1,15 @@
-import { IPersona, typeDocument } from 'src/Users/domain/model/user';
+import { IPersona, typeDocument } from '../../domain/model/user';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
+@Index(['document', 'documentType'], { unique: true })
 export class Persona implements IPersona {
   @PrimaryGeneratedColumn()
   id: number;
@@ -21,6 +23,7 @@ export class Persona implements IPersona {
   @Column()
   lastName: string;
 
+  @Index()
   @Column()
   age: number;
 

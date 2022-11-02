@@ -18,6 +18,8 @@ export class ResponseFormat<T> {
   @ApiProperty()
   method: string;
 
+  message: string;
+
   data: T;
 }
 
@@ -40,6 +42,7 @@ export class ResponseInterceptor<T>
         path: request.path,
         duration: `${Date.now() - now}ms`,
         method: request.method,
+        message: 'success',
       })),
     );
   }

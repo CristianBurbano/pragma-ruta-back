@@ -43,8 +43,12 @@ export class ImagesController {
 
   @ApiOperation({ summary: 'Modificar propiedades de la imagen por su ID' })
   @Put(':id')
-  updateImage(@Param('id') id: string, @Body() payload: UpdateImageDto) {
-    return this.updateImgUseCases.exec(id, payload);
+  @UseInterceptors(FileInterceptor('file'))
+  updateImage(
+    @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.updateImgUseCases.exec(id, file);
   }
 
   @ApiOperation({ summary: 'Eliminar Imagen' })

@@ -28,16 +28,20 @@ export class UsersController {
   @Get()
   getUsers(
     @Query('type') type: number,
-    @Query('value') value: string,
+    @Query('document') document: string,
     @Query('minAge') minAge: number,
     @Query('maxAge') maxAge: number,
   ) {
-    if (type && value) {
-      return this.getUserUseCase.byDocument(type, value);
+    if (!isNaN(type) && document) {
+      return this.getUserUseCase.byDocument(type, document);
     } else {
-      if (maxAge || minAge) {
-        return this.getUsersUseCase.getByAge(minAge, maxAge);
-      } else return this.getUsersUseCase.execute();
+      if (document) {
+        return this.getUsersUseCase.getByDocument(document);
+      } else {
+        if (maxAge || minAge) {
+          return this.getUsersUseCase.getByAge(minAge, maxAge);
+        } else return this.getUsersUseCase.execute();
+      }
     }
   }
 

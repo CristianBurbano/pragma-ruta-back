@@ -5,7 +5,9 @@ export interface IuserRepository {
 
   getUserById(id: number): Promise<User>;
   getUserByDocument(type: typeDocument, document: string): Promise<User>;
+
   getUsersByAge(min: number, max: number): Promise<User[]>;
+  getUsersByDocument(document: string): Promise<User[]>;
 
   createUser(user: User): Promise<User>;
 

@@ -36,5 +36,6 @@ lerna-debug.log*
 
 #ENV
 *.env
+/db
 /mysql_data
 /mongo_data
