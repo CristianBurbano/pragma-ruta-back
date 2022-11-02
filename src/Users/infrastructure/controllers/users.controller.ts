@@ -27,12 +27,12 @@ export class UsersController {
   @ApiOperation({ summary: 'Consulta de los Usuarios' })
   @Get()
   getUsers(
-    @Query('type') type: number,
-    @Query('document') document: string,
-    @Query('minAge') minAge: number,
-    @Query('maxAge') maxAge: number,
+    @Query('type') type?: number,
+    @Query('document') document?: string,
+    @Query('minAge') minAge?: number,
+    @Query('maxAge') maxAge?: number,
   ) {
-    if (!isNaN(type) && document) {
+    if (!isNaN(type) && type != null && document) {
       return this.getUserUseCase.byDocument(type, document);
     } else {
       if (document) {

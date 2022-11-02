@@ -1,5 +1,7 @@
-import { typeDocument } from '../src/Users/domain/model/user';
-import { CreateUserDto } from '../src/Users/infrastructure/controllers/users.dto';
+import { CreateUserDto } from 'src/Users/infrastructure/controllers/users.dto';
+import { typeDocument, User } from '../src/Users/domain/model/user';
+
+const date = new Date();
 
 export const USERS: CreateUserDto[] = [
   {
@@ -33,3 +35,26 @@ export const USERS: CreateUserDto[] = [
     photo: 'dfdfccrgbfgfgfgff',
   },
 ];
+
+export const USERS_RESPONSE: User[] = USERS.map((user, i) => ({
+  ...user,
+  id: i,
+  createAt: date,
+  updateAt: date,
+  getFullName: () => {
+    return 'hola';
+  },
+}));
+
+export const FILE: Express.Multer.File = {
+  buffer: Buffer.from('dfdfdf', 'binary'),
+  filename: 'fieldname',
+  originalname: 'imageName.jpg',
+  encoding: 'binary',
+  mimetype: 'image/jpg',
+  destination: __dirname,
+  size: 3434,
+  fieldname: 'fieldname',
+  path: '/./',
+  stream: null,
+};

@@ -17,8 +17,6 @@ import { deleteImageUseCases } from '../../usecases/deleteImage.usecases';
 import { getImagesUseCases } from '../../usecases/getImage.usecases';
 import { updateImageUseCases } from '../../usecases/updateImage.usecases';
 
-import { UpdateImageDto } from './image.dto';
-
 @ApiTags('Imagenes')
 @Controller('images')
 export class ImagesController {
